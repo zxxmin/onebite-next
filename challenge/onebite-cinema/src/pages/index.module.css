@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.container > section > ul {
+    display: grid;
+    gap: 10px;
+}
+
+.best_container {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.now_container {
+    grid-template-columns: repeat(5, 1fr);
+}
