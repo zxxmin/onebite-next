@@ -13,7 +13,6 @@ export default function SearchableLayout ({
     const q = router.query.q as string;
     
     useEffect(() => {
-        console.log(q)
         setSearch(q || '')
     }, [q]);
 
