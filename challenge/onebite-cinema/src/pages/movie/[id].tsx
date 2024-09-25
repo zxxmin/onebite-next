@@ -1,4 +1,6 @@
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import style from './[id].module.css';
+import fetchOneMovie from '@/lib/fetch-one-movie';
 
 const mockData = {
     "id": 1022789,
@@ -12,7 +14,22 @@ const mockData = {
     "posterImgUrl": "https://media.themoviedb.org/t/p/w300_and_h450_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg"
 }
 
-export default function Page () {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+
+    const id = context.params!.id;
+    const movie = await fetchOneMovie(Number(id))
+
+    return {
+        props: {
+            movie
+        },
+    }
+}
+
+export default function Page ({
+    movie,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    if(!movie) return '문제가 발생하였습니다. 다시 시도하세요.';
 
     const {
         id,
@@ -24,7 +41,7 @@ export default function Page () {
         description,
         runtime,
         posterImgUrl,
-    } = mockData;
+    } = movie;
 
     
     return <section className={style.container}>
