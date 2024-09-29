@@ -8,7 +8,12 @@ type NextPageWidthLayout = NextPage & {
   getLayout?: (page: ReactNode) => ReactNode;
 }
 
-export default function App({ Component, pageProps }: AppProps & {Component: NextPageWidthLayout;}) {
+export default function App({
+    Component,
+    pageProps
+  }: AppProps & {
+    Component: NextPageWidthLayout;
+  }) {
   const getLayout = Component.getLayout ?? ((page: ReactNode)=>page);
 
   return (
