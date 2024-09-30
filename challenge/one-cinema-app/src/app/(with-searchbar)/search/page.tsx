@@ -6,6 +6,6 @@ export default function Page({
     }
 }) {
     return (
-        <div>서치 페이지 - {searchParams.q}</div>
+        <div>Search : {searchParams.q}</div>
     )
 }
