@@ -1,3 +1,7 @@
+import movies from "@/mock/movies.json"
+import MovieItem from "@/components/movie-item";
+import style from "./page.module.css"
+
 export default function Page({
     searchParams
 } : {
@@ -6,6 +10,12 @@ export default function Page({
     }
 }) {
     return (
-        <div>Search : {searchParams.q}</div>
+        <ul className={style.search_container}>
+            {movies.map((movie) => (
+                <li key={movie.id}>
+                    <MovieItem {...movie} />
+                </li>
+            ))}
+        </ul>
     )
 }
