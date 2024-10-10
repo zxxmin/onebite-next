@@ -5,7 +5,7 @@ import MovieItem from "@/components/movie-item";
 import { MovieData } from "@/types";
 
 async function AllMovies () {
-  // 등록된 모든 영화는 한번 불러온 후 데이터 변화가 없으므로 'force-cache' 설정
+  // day12. 등록된 모든 영화는 한번 불러온 후 데이터 변화가 없으므로 'force-cache' 설정
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`,
     { cache: 'force-cache' }
@@ -24,9 +24,12 @@ async function AllMovies () {
 }
 
 async function BestMovies () {
-  // 새로고침이나 페이지 이동 시 계속된 랜덤했으면 좋겠어서 'no-store' 기본값 설정
+  // day12. 새로고침이나 페이지 이동 시 계속된 랜덤했으면 좋겠어서 'no-store' 기본값 설정
+  // day13. 풀 라우트 캐시를 적용하기 위해 Staic 페이지로 만들어야하므로 no-store에서 revalidate를 설정해줌.
+  // -> no-store을 설정하기 위해 옵션이 빈값이였으나, build 시 index 페이지가 static 페이지로 설정되긴 함.
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/random`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/random`,
+    {next: {revalidate: 3}}
   )
   if(!res.ok) return <div>오류가 발생하였습니다!!!</div>
 
