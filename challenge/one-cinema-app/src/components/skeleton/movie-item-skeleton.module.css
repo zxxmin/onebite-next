@@ -1,0 +1,11 @@
+.best_container {
+    width: 100%;
+    height: 390px;
+    background-color: rgb(230, 230, 230);
+}
+
+.all_container {
+    width: 100%;
+    height: 228px;
+    background-color: rgb(230, 230, 230);
+}
