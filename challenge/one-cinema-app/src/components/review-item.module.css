@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 0;
+}
+
+.author {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.author > strong {
+    font-size: 20px;
+}
+.author > span {
+    color: gray;
+}
+
+.content {
+    padding: 15px 0;
+}
+
+.del_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background-color: transparent;
+    color: gray;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.del_btn::before {
+    content: '\1F5D1';
+    display: inline-block;
+}

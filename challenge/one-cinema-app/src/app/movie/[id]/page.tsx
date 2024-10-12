@@ -1,6 +1,8 @@
 import NotFound from "@/app/not-found"
 import style from "./page.module.css"
-import { MovieData } from "@/types";
+import { MovieData, ReviewData } from "@/types";
+import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 
 export async function generateStaticParams () {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`)
@@ -10,16 +12,10 @@ export async function generateStaticParams () {
     return movies.map(({ id }) => ({ id: id.toString() }));
 }
 
-export default async function Page({
-    params
-} : {
-    params: {
-        id: string | string[]
-    }
-}) {
+async function MovieDetail ({ movieId } : { movieId: string }) {
     // day12. 현재 프로젝트에서는 상세보기 데이터도 변하지 않을 것 같으므로 'force-cache' 설정.
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`,
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${movieId}`,
         { cache: 'force-cache' }
     )
     if(!res.ok) {
@@ -44,7 +40,7 @@ export default async function Page({
     } = movie
 
     return (
-        <section className={style.container}>
+        <section>
             <div
                 className={style.cover_container}
                 style={{backgroundImage: `url('${posterImgUrl}')`}}
@@ -59,4 +55,33 @@ export default async function Page({
             <div>{description}</div>
         </section>
     )
+}
+
+async function ReviewList ({ movieId } : {movieId: string}) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`)
+
+    if(!res.ok) throw new Error(`Review fetch failed : ${res.statusText}`)
+    
+    const reviews: ReviewData[] = await res.json();
+
+    return <section>
+        {reviews.map((review) => (
+            <ReviewItem key={`review-item=${review.id}`} {...review} />
+        ))}
+    </section>
+
+}
+
+export default async function Page({
+    params
+} : {
+    params: {
+        id: string
+    }
+}) {
+    return <div className={style.container}>
+        <MovieDetail movieId={params.id} />
+        <ReviewEditor movieId={params.id} />
+        <ReviewList movieId={params.id} />
+    </div>
 }
