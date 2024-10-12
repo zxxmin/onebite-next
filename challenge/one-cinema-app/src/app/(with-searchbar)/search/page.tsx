@@ -2,6 +2,7 @@ import movies from "@/mock/movies.json"
 import MovieItem from "@/components/movie-item";
 import style from "./page.module.css"
 import { MovieData } from "@/types";
+import { delay } from "@/util/delay";
 
 export default async function Page({
     searchParams
@@ -15,6 +16,8 @@ export default async function Page({
      * 'no-store'와 'force-cache' 비교 시 캐싱이 된 상태의 검색 속도가 약 20ms 정도 빨라진거 확인.
      * 'no-store' 일 때는 계속 서버에 요청해서 시간이 일정함.
      * */ 
+
+    await delay(1500);
     
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/search?q=${searchParams.q}`,
