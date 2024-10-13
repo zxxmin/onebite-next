@@ -58,7 +58,10 @@ async function MovieDetail ({ movieId } : { movieId: string }) {
 }
 
 async function ReviewList ({ movieId } : {movieId: string}) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`)
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`,
+        { next: { tags: [`review-${movieId}`] }}
+    )
 
     if(!res.ok) throw new Error(`Review fetch failed : ${res.statusText}`)
     
