@@ -1,0 +1,15 @@
+.modal {
+    width: 80%;
+    max-width: 600px;
+    height: calc(100vh - 80px);
+
+    border-radius: 5px;
+    border: 1px solid gray;
+    
+    background-color: black;
+    color: white;
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
