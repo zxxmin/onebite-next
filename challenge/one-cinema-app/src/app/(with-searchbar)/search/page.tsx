@@ -2,7 +2,6 @@ import movies from "@/mock/movies.json"
 import MovieItem from "@/components/movie-item";
 import style from "./page.module.css"
 import { MovieData } from "@/types";
-import { delay } from "@/util/delay";
 import { Suspense } from "react";
 import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
 import { metadata } from "../page";
@@ -19,7 +18,6 @@ async function SearchResult ({
      * 'no-store' 일 때는 계속 서버에 요청해서 시간이 일정함.
      * */ 
 
-    await delay(1500);
         
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/search?q=${q}`,
