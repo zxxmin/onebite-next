@@ -3,6 +3,8 @@ import style from "./page.module.css"
 import { MovieData, ReviewData } from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
+import Image from "next/image";
+import { Metadata } from "next";
 
 export async function generateStaticParams () {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie`)
@@ -45,7 +47,12 @@ async function MovieDetail ({ movieId } : { movieId: string }) {
                 className={style.cover_container}
                 style={{backgroundImage: `url('${posterImgUrl}')`}}
             >
-                <img src={posterImgUrl} />
+                <Image
+                    src={posterImgUrl}
+                    width={234}
+                    height={350}
+                    alt={`영화 ${title}의 표지 이미지`}
+                />
             </div>
 
             <h1 className={style.title}>{title}</h1>
@@ -73,6 +80,35 @@ async function ReviewList ({ movieId } : {movieId: string}) {
         ))}
     </section>
 
+}
+
+export async function generateMetadata({
+    params
+} : {
+    params: {
+        id: string
+    }
+}) : Promise<Metadata | null> {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`,
+        { cache: "force-cache" }
+    )
+
+    if(!res.ok) {
+        throw new Error(res.statusText)
+    }
+
+    const movie: MovieData = await res.json();
+
+    return {
+        title: `${movie.title} - 한입 씨네마`,
+        description: `${movie.description}`,
+        openGraph: {
+            title: `${movie.title} - 한입 씨네마`,
+            description: `${movie.description}`,
+            images: [movie.posterImgUrl],
+        }
+    }
 }
 
 export default async function Page({

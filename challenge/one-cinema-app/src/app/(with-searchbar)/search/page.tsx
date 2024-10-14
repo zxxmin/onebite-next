@@ -5,6 +5,8 @@ import { MovieData } from "@/types";
 import { delay } from "@/util/delay";
 import { Suspense } from "react";
 import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
+import { metadata } from "../page";
+import { Metadata } from "next";
 
 async function SearchResult ({
     q
@@ -31,11 +33,33 @@ async function SearchResult ({
         <ul className={style.search_container}>
             {movies.map((movie) => (
                 <li key={movie.id}>
-                    <MovieItem {...movie} />
+                    <MovieItem
+                        {...movie}
+                        width={260}
+                        height={390}
+                    />
                 </li>
             ))}
         </ul>
     )
+}
+
+type Props = {
+    searchParams: {
+        q?: string
+    }
+}
+
+export function generateMetadata({ searchParams }: Props) : Metadata {
+    return {
+        title: `${searchParams} : 한입 씨네마 검색`,
+        description: `${searchParams}의 검색 결과입니다.`,
+        openGraph: {
+            title: `${searchParams} : 한입 씨네마 검색`,
+            description: `${searchParams}의 검색 결과입니다.`,
+            images: ['/thumbnail.png'],
+        }
+    }
 }
 
 export default async function Page({

@@ -4,6 +4,7 @@ import { MovieData } from "@/types";
 import { delay } from "@/util/delay";
 import { Suspense } from "react";
 import MovieListSkeleton from "@/components/skeleton/movie-list-skeleton";
+import { Metadata } from "next";
 
 async function AllMovies () {
   await delay(1500);
@@ -19,7 +20,11 @@ async function AllMovies () {
   return <ul className={styles.now_container}>
     {allMovies.map((movie) => (
       <li key={`now-${movie.id}`}>
-        <MovieItem {...movie} />
+        <MovieItem
+          {...movie}
+          width={152}
+          height={228}
+        />
       </li>
     ))}
   </ul>
@@ -41,13 +46,27 @@ async function BestMovies () {
   return <ul className={styles.best_container}>
     {bestMovies.slice(0, 3).map((movie) => (
       <li key={`best-${movie.id}`}>
-        <MovieItem {...movie} />
+        <MovieItem
+          {...movie}
+          width={260}
+          height={390}
+        />
       </li>
     ))}
   </ul>
 }
 
 export const dynamic = 'force-dynamic';
+
+export const metadata : Metadata = {
+  title: '한입 씨네마',
+  description: '한입 씨네마에 등록된 영화를 만나보세요.',
+  openGraph: {
+    title: '한입 씨네마',
+    description: '한입 씨네마에 등록된 영화를 만나보세요.',
+    images: ['/thumbnail.png'],
+  }
+}
 
 export default function Home() {
   return (
